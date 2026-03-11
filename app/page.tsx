@@ -22,7 +22,7 @@ export default function TranslatorApp() {
 
       const data = await response.json();
 
-      // If the backend threw an error, display it in the output box!
+      // If the backend threw an error, display it in the output box
       if (!response.ok) {
         setOutputText(`❌ Error: ${data.error}`);
         setIsTranslating(false);
@@ -92,6 +92,7 @@ export default function TranslatorApp() {
                 value={inputText}
                 onChange={(e) => setInputText(e.target.value)}
                 aria-label="Input text for translation"
+                data-grammarly="false"
               ></textarea>
             </div>
             {/* Footer actions for Input */}
@@ -134,6 +135,7 @@ export default function TranslatorApp() {
                 value={outputText}
                 placeholder="Translation will appear here..."
                 aria-label="Translated output in Gikuyu"
+                data-grammarly="false"
               ></textarea>
             </div>
             {/* Footer actions for Output */}
