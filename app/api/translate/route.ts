@@ -15,7 +15,8 @@ export async function POST(request: Request) {
     // Give Gemini strict instructions to act ONLY as a translator
     const prompt = `You are an expert linguist. Translate the following ${languageName} text into Gikuyu. Only return the final translated text. Do not include quotes, conversational filler, or explanations. Here is the text: "${text}"`;
 
-    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`, {
+    // UPDATED: Now pointing to gemini-2.5-flash!
+    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
