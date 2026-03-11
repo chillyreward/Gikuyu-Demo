@@ -7,29 +7,29 @@ export default function TranslatorApp() {
   const [isCopied, setIsCopied] = useState(false);
   const [inputText, setInputText] = useState('');
   const [outputText, setOutputText] = useState('');
+  const [sourceLang, setSourceLang] = useState('en'); // Track the dropdown choice
 
   const handleTranslate = async () => {
     if (!inputText.trim()) return;
     setIsTranslating(true);
-    setOutputText('Translating...'); // Give visual feedback
+    setOutputText('Translating...'); 
     
     try {
       const response = await fetch('/api/translate', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ text: inputText }),
+        // Send both the text AND the chosen language to the backend
+        body: JSON.stringify({ text: inputText, sourceLang }), 
       });
 
       const data = await response.json();
 
-      // If the backend threw an error, display it in the output box
       if (!response.ok) {
         setOutputText(`❌ Error: ${data.error}`);
         setIsTranslating(false);
         return;
       }
       
-      // If it worked, show the translation
       setOutputText(data.translation);
     } catch (error) {
       setOutputText('❌ Critical Network Error: Could not reach the API route.');
@@ -51,7 +51,6 @@ export default function TranslatorApp() {
       {/* Main Header */}
       <header className="bg-slate-900 border-b border-slate-800 h-16 flex items-center justify-between px-6 lg:px-12 sticky top-0 z-50">
         <div className="flex items-center gap-3">
-          {/* Icon */}
           <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center shadow-lg shadow-blue-900/20">
             <svg className="h-5 w-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"></path>
@@ -59,7 +58,6 @@ export default function TranslatorApp() {
           </div>
           <h1 className="text-xl font-bold tracking-tight text-slate-100">Gikuyu Transcribe</h1>
         </div>
-        {/* Navigation */}
         <nav>
           <a href="#discover" className="text-sm font-medium text-slate-300 hover:text-white transition-colors">
             Discover
@@ -73,18 +71,18 @@ export default function TranslatorApp() {
           
           {/* Input Card */}
           <section className="w-full lg:flex-1 bg-slate-900 rounded-2xl shadow-xl border border-slate-800 flex flex-col min-h-[400px]">
-            {/* Top bar with language selector */}
             <div className="p-4 border-b border-slate-800/60 flex items-center">
               <label htmlFor="source-language" className="sr-only">Source Language</label>
               <select 
                 id="source-language" 
+                value={sourceLang}
+                onChange={(e) => setSourceLang(e.target.value)}
                 className="bg-transparent border-none text-slate-300 font-medium focus:ring-0 cursor-pointer text-sm outline-none"
               >
                 <option value="en" className="bg-slate-800">English</option>
                 <option value="sw" className="bg-slate-800">Kiswahili</option>
               </select>
             </div>
-            {/* Input Text Area */}
             <div className="flex-grow p-6">
               <textarea 
                 className="w-full h-full border-none bg-transparent focus:ring-0 text-lg text-slate-100 placeholder-slate-500 resize-none outline-none" 
@@ -95,7 +93,6 @@ export default function TranslatorApp() {
                 data-grammarly="false"
               ></textarea>
             </div>
-            {/* Footer actions for Input */}
             <div className="p-4 flex items-center">
               <button 
                 type="button" 
@@ -122,12 +119,10 @@ export default function TranslatorApp() {
 
           {/* Output Card */}
           <section className="w-full lg:flex-1 bg-slate-900 rounded-2xl shadow-xl border border-slate-800 flex flex-col min-h-[400px]">
-            {/* Top bar with Target Label */}
             <div className="p-4 border-b border-slate-800/60 flex items-center justify-between">
               <span className="px-4 py-1 text-sm font-semibold text-slate-300">Gikuyu</span>
               <span className="text-[10px] uppercase tracking-widest text-slate-500 font-bold">AI Result</span>
             </div>
-            {/* Output Display Area */}
             <div className="flex-grow p-6 bg-slate-800/20 rounded-b-2xl">
               <textarea 
                 className="w-full h-full border-none bg-transparent focus:ring-0 text-lg text-slate-100 resize-none outline-none" 
@@ -138,7 +133,6 @@ export default function TranslatorApp() {
                 data-grammarly="false"
               ></textarea>
             </div>
-            {/* Footer actions for Output */}
             <div className="p-4 flex items-center justify-end absolute bottom-0 right-0 w-full lg:w-1/2">
               <button 
                 type="button" 
