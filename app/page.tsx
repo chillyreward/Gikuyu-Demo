@@ -1,5 +1,4 @@
-'use client';  
-
+'use client';
 
 import { useState } from 'react';
 
@@ -42,8 +41,8 @@ export default function TranslatorApp() {
 
   // --- SPEECH TO TEXT LOGIC ---
   const handleStartRecording = () => {
-    // Check if the browser supports the Web Speech API
-    const SpeechRecognition = window.SpeechRecognition || (window as any).webkitSpeechRecognition;
+    // THE FIX: Bypassing TypeScript's strict window check with (window as any)
+    const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
     
     if (!SpeechRecognition) {
       alert("Your browser does not support Speech Recognition. Please try using Google Chrome.");
@@ -52,7 +51,6 @@ export default function TranslatorApp() {
 
     const recognition = new SpeechRecognition();
     
-    // Set language based on dropdown (en-US for English, sw-KE for Kiswahili)
     recognition.lang = sourceLang === 'sw' ? 'sw-KE' : 'en-US';
     recognition.interimResults = false;
     recognition.maxAlternatives = 1;
@@ -63,7 +61,6 @@ export default function TranslatorApp() {
 
     recognition.onresult = (event: any) => {
       const transcript = event.results[0][0].transcript;
-      // Append the spoken text to whatever is already in the box
       setInputText((prev) => prev ? prev + ' ' + transcript : transcript);
     };
 
