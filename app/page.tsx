@@ -37,7 +37,7 @@ export default function TranslatorApp() {
 
       if (!transcriptResponse.ok) {
         setTranslatedText(`❌ Error: ${transcriptData.error}`);
-        setIsProcessingYoutube(false);
+        setIsProcessingVideo(false);
         return;
       }
 
@@ -56,13 +56,13 @@ export default function TranslatorApp() {
 
       if (!translateResponse.ok) {
         setTranslatedText(`❌ Translation Error: ${translateData.error}`);
-        setIsProcessingYoutube(false);
+        setIsProcessingVideo(false);
         return;
       }
 
       const kikuyuText = translateData.translation;
       setTranslatedText(kikuyuText);
-      setIsProcessingYoutube(false);
+      setIsProcessingVideo(false);
       
       // Step 3: Speak in Kikuyu
       if (useElevenLabs) {
