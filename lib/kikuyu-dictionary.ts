@@ -11,29 +11,37 @@ export interface DictionaryEntry {
 export const kikuyuDictionary: DictionaryEntry[] = [
   // --- GREETINGS ---
   { english: 'Hello', swahili: 'Habari', kikuyu: 'Wĩ mwega', phonetic: 'Wee mwega', category: 'greetings' },
-  { english: 'Good morning', swahili: 'Habari ya asubuhi', kikuyu: 'Ũrĩa mwega rũciinĩ', phonetic: 'Ooria mwega roocheenee', category: 'greetings' },
+  { english: 'Good morning', swahili: 'Habari ya asubuhi', kikuyu: 'Wega wa rũciinĩ', phonetic: 'Wega wa roocheenee', category: 'greetings' },
   { english: 'Good afternoon', swahili: 'Habari ya mchana', kikuyu: 'Ũrĩa mwega mũthenya', phonetic: 'Ooria mwega moothenya', category: 'greetings' },
-  { english: 'Good evening', swahili: 'Habari ya jioni', kikuyu: 'Ũrĩa mwega hwaĩ-inĩ', phonetic: 'Ooria mwega hwai-eenee', category: 'greetings' },
+  { english: 'Good evening', swahili: 'Habari ya jioni', kikuyu: 'Wega wa hwa-inĩ', phonetic: 'Wega wa hwa-eenee', category: 'greetings' },
   { english: 'Good night', swahili: 'Lala salama', kikuyu: 'Ũrĩa mwega ũtukũ', phonetic: 'Ooria mwega ootookoo', category: 'greetings' },
   { english: 'How are you?', swahili: 'Habari yako?', kikuyu: 'Wĩ mwega atĩa?', phonetic: 'Wee mwega atia?', category: 'greetings' },
   { english: 'I am fine', swahili: 'Niko sawa', kikuyu: 'Nĩ mwega', phonetic: 'Nee mwega', category: 'greetings' },
-  { english: 'Welcome', swahili: 'Karibu', kikuyu: 'Wĩ mwega', phonetic: 'Wee mwega', category: 'greetings' },
+  { english: 'Welcome', swahili: 'Karibu', kikuyu: 'Nĩwega', phonetic: 'Neewega', category: 'greetings' },
   { english: 'Goodbye', swahili: 'Kwaheri', kikuyu: 'Tigwo na thayũ', phonetic: 'Teegwo na thayoo', category: 'greetings' },
   { english: 'See you later', swahili: 'Tutaonana', kikuyu: 'Tũgakorwo', phonetic: 'Toogakorwo', category: 'greetings' },
+  { english: 'Today', swahili: 'Leo', kikuyu: 'Ũmũthĩ', phonetic: 'Oomoothi', category: 'greetings' },
 
   // --- COMMON PHRASES ---
   { english: 'Yes', swahili: 'Ndiyo', kikuyu: 'Ĩĩ', phonetic: 'Ee', category: 'common' },
   { english: 'No', swahili: 'Hapana', kikuyu: 'Aca', phonetic: 'Acha', category: 'common' },
-  { english: 'Please', swahili: 'Tafadhali', kikuyu: 'Ndagũthaitha', phonetic: 'Ndagoothaitha', category: 'common' },
-  { english: 'Thank you', swahili: 'Asante', kikuyu: 'Nĩ wega mũno', phonetic: 'Nee wega moono', category: 'common' },
+  { english: 'Please', swahili: 'Tafadhali', kikuyu: 'Ndagũthaitha', phonetic: 'tafadhali', category: 'common' },
+  { english: 'Thank you', swahili: 'Asante', kikuyu: 'Nĩ ngatho', phonetic: 'Nee ngatho', category: 'common' },
   { english: 'Thank you very much', swahili: 'Asante sana', kikuyu: 'Nĩ wega mũno mũno', phonetic: 'Nee wega moono moono', category: 'common' },
-  { english: 'You are welcome', swahili: 'Karibu', kikuyu: 'Nĩ wega', phonetic: 'Nee wega', category: 'common' },
+  { english: 'You are welcome', swahili: 'Karibu', kikuyu: 'Nĩwega', phonetic: 'Neewega', category: 'common' },
+  { english: 'Welcome', swahili: 'Karibu', kikuyu: 'Nĩwega', phonetic: 'Neewega', category: 'common' },
   { english: 'Sorry', swahili: 'Samahani', kikuyu: 'Ndĩ na ũũru', phonetic: 'Ndee na ooru', category: 'common' },
   { english: 'Excuse me', swahili: 'Nisamehe', kikuyu: 'Ĩtigĩra', phonetic: 'Eetigira', category: 'common' },
   { english: 'I don\'t understand', swahili: 'Sielewi', kikuyu: 'Ndĩngĩũndũ', phonetic: 'Ndeengeeoondu', category: 'common' },
   { english: 'Please repeat', swahili: 'Rudia tena', kikuyu: 'Ũgaathome rĩngĩ', phonetic: 'Oogaathome reengee', category: 'common' },
   { english: 'Help', swahili: 'Msaada', kikuyu: 'Ndeithia', phonetic: 'Ndeithia', category: 'common' },
   { english: 'I need help', swahili: 'Nahitaji msaada', kikuyu: 'Nĩndagĩa ndeithia', phonetic: 'Neendagia ndeithia', category: 'common' },
+  { english: 'Enter', swahili: 'Ingiza', kikuyu: 'Tũhũ', phonetic: 'Toohu', category: 'common' },
+  { english: 'Phone', swahili: 'Simu', kikuyu: 'Thimu', phonetic: 'Theemu', category: 'common' },
+  { english: 'Number', swahili: 'Nambari', kikuyu: 'Namba', phonetic: 'Namba', category: 'common' },
+  { english: 'Your', swahili: 'Yako', kikuyu: 'Yaku', phonetic: 'Yaku', category: 'common' },
+  { english: 'News', swahili: 'Habari', kikuyu: 'Ũhoro', phonetic: 'Oohoro', category: 'common' },
+  { english: 'Technology', swahili: 'Teknolojia', kikuyu: 'Tekinoroji', phonetic: 'Tekinoroji', category: 'common' },
 
   // --- INTRODUCTIONS ---
   { english: 'What is your name?', swahili: 'Jina lako ni nani?', kikuyu: 'Wĩtagwo atĩa?', phonetic: 'Weetagwo atia?', category: 'introductions' },
@@ -94,7 +102,6 @@ export const kikuyuDictionary: DictionaryEntry[] = [
   { english: 'I miss you', swahili: 'Nakukosa', kikuyu: 'Nĩnjĩkũhĩtĩkĩte', phonetic: 'Neenjeekooheeteekeete', category: 'emotions' },
 
   // --- TIME ---
-  { english: 'Today', swahili: 'Leo', kikuyu: 'Ũmũthĩ', phonetic: 'Oomoothi', category: 'time' },
   { english: 'Tomorrow', swahili: 'Kesho', kikuyu: 'Rũciũ', phonetic: 'Roochoo', category: 'time' },
   { english: 'Yesterday', swahili: 'Jana', kikuyu: 'Ira', phonetic: 'Eera', category: 'time' },
   { english: 'Morning', swahili: 'Asubuhi', kikuyu: 'Rũciinĩ', phonetic: 'Roocheenee', category: 'time' },
