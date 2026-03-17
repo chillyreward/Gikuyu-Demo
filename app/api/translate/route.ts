@@ -1,41 +1,9 @@
 import { NextResponse } from 'next/server';
-
-// Example Kikuyu translations dataset
-const demoTranslations: Record<string, string> = {
-  'hello': 'Wĩ mwega',
-  'good morning': 'Ũrĩa mwega rũciinĩ',
-  'good afternoon': 'Ũrĩa mwega mũthenya',
-  'good evening': 'Ũrĩa mwega hwaĩ-inĩ',
-  'good night': 'Ũrĩa mwega ũtukũ',
-  'how are you': 'Wĩ mwega atĩa',
-  'thank you': 'Nĩ wega mũno',
-  'welcome': 'Wĩ mwega',
-  'goodbye': 'Tigwo na thayũ',
-  'yes': 'Ĩĩ',
-  'no': 'Aca',
-  'please': 'Ndagũthaitha',
-  'sorry': 'Ndĩ na ũũru',
-  'excuse me': 'Ndĩ na ũũru',
-  'i love you': 'Nĩngwendete',
-  'what is your name': 'Wĩtagwo atĩa',
-  'my name is': 'Ndĩĩtagwo',
-  'how much': 'Nĩ thogora ũrĩkũ',
-  'water': 'Maaĩ',
-  'food': 'Irio',
-  'help': 'Ndeithia',
-  'habari': 'Wĩ mwega atĩa',
-  'asante': 'Nĩ wega mũno',
-  'karibu': 'Wĩ mwega',
-  'kwaheri': 'Tigwo na thayũ',
-};
+import { searchDictionary } from '@/lib/kikuyu-dictionary';
 
 function findDemoTranslation(text: string): string | null {
-  const normalizedText = text.toLowerCase().trim();
-  if (demoTranslations[normalizedText]) return demoTranslations[normalizedText];
-  for (const [key, value] of Object.entries(demoTranslations)) {
-    if (normalizedText.includes(key) || key.includes(normalizedText)) return value;
-  }
-  return null;
+  const results = searchDictionary(text);
+  return results.length > 0 ? results[0].phonetic : null;
 }
 
 // Phonetic conversion for better TTS pronunciation
