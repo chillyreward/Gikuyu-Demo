@@ -9,6 +9,7 @@ export default function TranslatorApp() {
   const [isProcessingVideo, setIsProcessingVideo] = useState(false);
   const [inputText, setInputText] = useState('');
   const [translatedText, setTranslatedText] = useState('');
+  const [swahiliText, setSwahiliText] = useState('');
   const [sourceLang, setSourceLang] = useState('en');
   const [useElevenLabs, setUseElevenLabs] = useState(true);
   const [youtubeUrl, setYoutubeUrl] = useState('');
@@ -101,6 +102,7 @@ export default function TranslatorApp() {
       }
       
       const kikuyuText = data.translation;
+      setSwahiliText(data.swahili || '');
       setTranslatedText(kikuyuText);
       setIsTranslating(false);
       
@@ -456,7 +458,14 @@ export default function TranslatorApp() {
                 </span>
               </div>
             </div>
-            <div className="flex-grow p-6 bg-slate-950/20 rounded-b-3xl flex flex-col">
+            <div className="flex-grow p-6 bg-slate-950/20 rounded-b-3xl flex flex-col gap-4">
+              {swahiliText && (
+                <div>
+                  <p className="text-xs uppercase tracking-widest text-slate-500 mb-1">Swahili (bridge)</p>
+                  <p className="text-sm text-slate-400 italic">{swahiliText}</p>
+                </div>
+              )}
+              {swahiliText && translatedText && <div className="border-t border-slate-800"></div>}
               <textarea 
                 className="w-full flex-grow border-none bg-transparent focus:ring-0 text-xl text-slate-100 resize-none outline-none leading-relaxed" 
                 readOnly 

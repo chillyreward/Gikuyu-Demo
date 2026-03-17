@@ -38,6 +38,59 @@ function findDemoTranslation(text: string): string | null {
   return null;
 }
 
+// Phonetic conversion for better TTS pronunciation
+function phoneticConvert(text: string): string {
+  return text
+    .replace(/ĩ/g, 'ee')
+    .replace(/ũ/g, 'oo')
+    .replace(/ng'/g, 'ng')
+    .replace(/c/g, 'ch');
+}
+
+async function translateToSwahili(text: string, sourceLang: string, apiKey: string): Promise<string> {
+  // If already Swahili, skip this step
+  if (sourceLang === 'sw') return text;
+
+  const response = await fetch('https://api.openai.com/v1/chat/completions', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}` },
+    body: JSON.stringify({
+      model: 'gpt-4.1-mini',
+      messages: [{ role: 'user', content: `Translate this text to Kiswahili:\n${text}` }],
+      temperature: 0.3,
+    })
+  });
+  const data = await response.json();
+  if (!response.ok) throw new Error(data.error?.message || 'Swahili translation failed');
+  return data.choices[0].message.content.trim();
+}
+
+async function translateToKikuyu(text: string, apiKey: string): Promise<string> {
+  const response = await fetch('https://api.openai.com/v1/chat/completions', {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${apiKey}` },
+    body: JSON.stringify({
+      model: 'gpt-4.1-mini',
+      messages: [{
+        role: 'user',
+        content: `Translate this Kiswahili text into natural Kikuyu.
+Rules:
+- Use simple, spoken Kikuyu from Central Kenya
+- Keep sentences short
+- Avoid literal translation
+- Preserve meaning
+
+Text:
+${text}`
+      }],
+      temperature: 0.3,
+    })
+  });
+  const data = await response.json();
+  if (!response.ok) throw new Error(data.error?.message || 'Kikuyu translation failed');
+  return data.choices[0].message.content.trim();
+}
+
 export async function POST(request: Request) {
   try {
     const { text, sourceLang } = await request.json();
@@ -56,47 +109,16 @@ export async function POST(request: Request) {
       }, { status: 500 });
     }
 
-    const languageName = sourceLang === 'sw' ? 'Kiswahili' : 'English';
+    // Step 1: Translate to Swahili (bridge language)
+    const swahili = await translateToSwahili(text, sourceLang, apiKey);
 
-    const response = await fetch('https://api.openai.com/v1/chat/completions', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${apiKey}`
-      },
-      body: JSON.stringify({
-        model: 'gpt-4o-mini',
-        messages: [
-          {
-            role: 'system',
-            content: `You are a native Kikuyu speaker from Central Kenya. Translate the given text into natural, everyday Kikuyu.
+    // Step 2: Translate Swahili → Kikuyu
+    const kikuyu = await translateToKikuyu(swahili, apiKey);
 
-Rules:
-- Use natural Kikuyu as spoken in Central Kenya
-- Keep sentences short and clear
-- Avoid literal word-for-word translation
-- Preserve the meaning, not the exact words
-- Use common everyday Kikuyu that people actually speak
-- Only return the translated text, nothing else. No quotes, no explanations.`
-          },
-          {
-            role: 'user',
-            content: `Translate the following ${languageName} text into Kikuyu: "${text}"`
-          }
-        ],
-        temperature: 0.3,
-        max_tokens: 500
-      })
-    });
+    // Step 3: Phonetic conversion for better TTS pronunciation
+    const phonetic = phoneticConvert(kikuyu);
 
-    const data = await response.json();
-
-    if (!response.ok) {
-      throw new Error(data.error?.message || 'Failed to reach OpenAI API');
-    }
-
-    const translation = data.choices[0].message.content.trim();
-    return NextResponse.json({ translation });
+    return NextResponse.json({ translation: phonetic, kikuyu, swahili });
 
   } catch (error: any) {
     return NextResponse.json({ error: error.message || 'Unknown server error' }, { status: 500 });
