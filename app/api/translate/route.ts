@@ -58,17 +58,21 @@ async function translateToKikuyu(text: string, apiKey: string): Promise<string> 
       model: 'gpt-4.1-mini',
       messages: [{
         role: 'user',
-        content: `Translate this Kiswahili text into natural Kikuyu.
+        content: `You are a native Kikuyu radio presenter from Central Kenya. 
+Translate the following Kiswahili text into natural spoken Kikuyu.
+
 Rules:
-- Use simple, spoken Kikuyu from Central Kenya
-- Keep sentences short
-- Avoid literal translation
-- Preserve meaning
+- Speak like a Kikuyu radio presenter — warm, clear, and engaging
+- Reorder sentences to sound natural in Kikuyu, not English structure
+- Avoid copying English or Swahili sentence order
+- Use conversational tone that feels natural to Kikuyu listeners
+- Keep it short and punchy
+- Only return the Kikuyu translation, nothing else
 
 Text:
 ${text}`
       }],
-      temperature: 0.3,
+      temperature: 0.5,
     })
   });
   const data = await response.json();
