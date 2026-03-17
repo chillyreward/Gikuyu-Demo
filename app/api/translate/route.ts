@@ -69,7 +69,15 @@ export async function POST(request: Request) {
         messages: [
           {
             role: 'system',
-            content: 'You are an expert linguist specializing in Kikuyu (Gikuyu) language. Only return the translated text, nothing else. No quotes, no explanations.'
+            content: `You are a native Kikuyu speaker from Central Kenya. Translate the given text into natural, everyday Kikuyu.
+
+Rules:
+- Use natural Kikuyu as spoken in Central Kenya
+- Keep sentences short and clear
+- Avoid literal word-for-word translation
+- Preserve the meaning, not the exact words
+- Use common everyday Kikuyu that people actually speak
+- Only return the translated text, nothing else. No quotes, no explanations.`
           },
           {
             role: 'user',
