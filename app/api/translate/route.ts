@@ -9,10 +9,21 @@ function findDemoTranslation(text: string): string | null {
 // Phonetic conversion for better TTS pronunciation
 function phoneticConvert(text: string): string {
   return text
+    // vowels
     .replace(/ĩ/g, 'ee')
     .replace(/ũ/g, 'oo')
+    // consonant tuning
+    .replace(/mw/g, 'mwe')
     .replace(/ng'/g, 'ng')
-    .replace(/c/g, 'ch');
+    .replace(/ny/g, 'ni')
+    .replace(/th/g, 'th') // keep but emphasize
+    // smoothing
+    .replace(/aa/g, 'a')
+    .replace(/ee/g, 'e')
+    .replace(/oo/g, 'o')
+    // spacing fix
+    .replace(/\s+/g, ' ')
+    .trim();
 }
 
 async function translateToSwahili(text: string, sourceLang: string, apiKey: string): Promise<string> {
