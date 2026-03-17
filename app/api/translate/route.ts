@@ -1,8 +1,10 @@
 import { NextResponse } from 'next/server';
-import { searchDictionary } from '@/lib/kikuyu-dictionary';
+import { searchPhrases } from '@/lib/kikuyuPhrases';
+import { localTranslate, hasLocalTranslation } from '@/lib/localTranslate';
 
 function findDemoTranslation(text: string): string | null {
-  const results = searchDictionary(text);
+  if (hasLocalTranslation(text)) return localTranslate(text);
+  const results = searchPhrases(text);
   return results.length > 0 ? results[0].phonetic : null;
 }
 
