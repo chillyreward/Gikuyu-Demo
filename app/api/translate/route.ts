@@ -1,35 +1,14 @@
 import { NextResponse } from 'next/server';
-import { searchPhrases } from '@/lib/kikuyuPhrases';
 import { localTranslate, hasLocalTranslation } from '@/lib/localTranslate';
+import { searchPhrases, phoneticConvert } from '@/lib/kikuyuPhrases';
 
-function findDemoTranslation(text: string): string | null {
+function findLocalTranslation(text: string): string | null {
   if (hasLocalTranslation(text)) return localTranslate(text);
   const results = searchPhrases(text);
-  return results.length > 0 ? results[0].phonetic : null;
-}
-
-// Phonetic conversion for better TTS pronunciation
-function phoneticConvert(text: string): string {
-  return text
-    // vowels
-    .replace(/ĩ/g, 'ee')
-    .replace(/ũ/g, 'oo')
-    // consonant tuning
-    .replace(/mw/g, 'mwe')
-    .replace(/ng'/g, 'ng')
-    .replace(/ny/g, 'ni')
-    .replace(/th/g, 'th') // keep but emphasize
-    // smoothing
-    .replace(/aa/g, 'a')
-    .replace(/ee/g, 'e')
-    .replace(/oo/g, 'o')
-    // spacing fix
-    .replace(/\s+/g, ' ')
-    .trim();
+  return results.length > 0 ? phoneticConvert(results[0].kikuyu) : null;
 }
 
 async function translateToSwahili(text: string, sourceLang: string, apiKey: string): Promise<string> {
-  // If already Swahili, skip this step
   if (sourceLang === 'sw') return text;
 
   const response = await fetch('https://api.openai.com/v1/chat/completions', {
@@ -80,27 +59,20 @@ export async function POST(request: Request) {
   try {
     const { text, sourceLang } = await request.json();
     const apiKey = process.env.OPENAI_API_KEY;
-    const useDemoMode = process.env.USE_DEMO_MODE === 'true';
 
-    // Try demo mode first
-    if (useDemoMode) {
-      const demoTranslation = findDemoTranslation(text);
-      if (demoTranslation) return NextResponse.json({ translation: demoTranslation });
-    }
+    // Always try local library first
+    const local = findLocalTranslation(text);
+    if (local) return NextResponse.json({ translation: local });
 
     if (!apiKey) {
-      return NextResponse.json({ 
-        error: 'Missing OPENAI_API_KEY in .env.local. Set USE_DEMO_MODE=true to use example data.' 
+      return NextResponse.json({
+        error: 'Missing OPENAI_API_KEY in .env.local. Add known phrases to the local library for offline use.'
       }, { status: 500 });
     }
 
-    // Step 1: Translate to Swahili (bridge language)
+    // Fall back to OpenAI
     const swahili = await translateToSwahili(text, sourceLang, apiKey);
-
-    // Step 2: Translate Swahili → Kikuyu
     const kikuyu = await translateToKikuyu(swahili, apiKey);
-
-    // Step 3: Phonetic conversion for better TTS pronunciation
     const phonetic = phoneticConvert(kikuyu);
 
     return NextResponse.json({ translation: phonetic, kikuyu, swahili });
