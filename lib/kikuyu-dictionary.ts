@@ -10,12 +10,12 @@ export interface DictionaryEntry {
 
 export const kikuyuDictionary: DictionaryEntry[] = [
   // --- GREETINGS ---
-  { english: 'Hello', swahili: 'Habari', kikuyu: 'Wĩ mwega', phonetic: 'Wee mwega', category: 'greetings' },
+  { english: 'Hello', swahili: 'Habari', kikuyu: 'Úhoro', phonetic: 'Úhoro', category: 'greetings' },
   { english: 'Good morning', swahili: 'Habari ya asubuhi', kikuyu: 'Wega wa rũciinĩ', phonetic: 'Wega wa roocheenee', category: 'greetings' },
   { english: 'Good afternoon', swahili: 'Habari ya mchana', kikuyu: 'Ũrĩa mwega mũthenya', phonetic: 'Ooria mwega moothenya', category: 'greetings' },
   { english: 'Good evening', swahili: 'Habari ya jioni', kikuyu: 'Wega wa hwa-inĩ', phonetic: 'Wega wa hwa-eenee', category: 'greetings' },
   { english: 'Good night', swahili: 'Lala salama', kikuyu: 'Ũrĩa mwega ũtukũ', phonetic: 'Ooria mwega ootookoo', category: 'greetings' },
-  { english: 'How are you?', swahili: 'Habari yako?', kikuyu: 'Wĩ mwega atĩa?', phonetic: 'Wee mwega atia?', category: 'greetings' },
+  { english: 'How are you?', swahili: 'Habari yako?', kikuyu: 'Wee mwega?', phonetic: 'Wee mwega?', category: 'greetings' },
   { english: 'I am fine', swahili: 'Niko sawa', kikuyu: 'Nĩ mwega', phonetic: 'Nee mwega', category: 'greetings' },
   { english: 'Welcome', swahili: 'Karibu', kikuyu: 'Nĩwega', phonetic: 'Neewega', category: 'greetings' },
   { english: 'Goodbye', swahili: 'Kwaheri', kikuyu: 'Tigwo na thayũ', phonetic: 'Teegwo na thayoo', category: 'greetings' },

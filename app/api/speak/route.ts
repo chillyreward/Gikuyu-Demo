@@ -1,20 +1,30 @@
 import { NextResponse } from 'next/server';
 import { synthesizeSpeech } from '@/lib/elevenlabs';
+import { synthesizeWithOpenAI } from '@/lib/openaiTTS';
+import { synthesizeWithGooey } from '@/lib/gooeyTTS';
 
 export async function POST(request: Request) {
   try {
-    const { text } = await request.json();
+    const { text, engine, voice } = await request.json();
 
-    const apiKey = process.env.ELEVENLABS_API_KEY;
-    if (!apiKey) {
-      return NextResponse.json(
-        { error: 'Missing ELEVENLABS_API_KEY in .env.local. Using browser speech instead.' },
-        { status: 500 }
-      );
-    }
-
+    const elevenLabsKey = process.env.ELEVENLABS_API_KEY;
+    const openaiKey = process.env.OPENAI_API_KEY;
+    const gooeyKey = process.env.GOOEY_API_KEY;
     const voiceId = process.env.ELEVENLABS_VOICE_ID || 'pNInz6obpgDQGcFmaJgB';
-    const audioBuffer = await synthesizeSpeech(text, apiKey, voiceId);
+
+    let audioBuffer: ArrayBuffer;
+
+    if (engine === 'openai') {
+      if (!openaiKey) return NextResponse.json({ error: 'Missing OPENAI_API_KEY' }, { status: 500 });
+      audioBuffer = await synthesizeWithOpenAI(text, openaiKey, voice ?? 'nova');
+    } else if (engine === 'elevenlabs') {
+      if (!elevenLabsKey) return NextResponse.json({ error: 'Missing ELEVENLABS_API_KEY' }, { status: 500 });
+      audioBuffer = await synthesizeSpeech(text, elevenLabsKey, voiceId);
+    } else {
+      // Default: Gooey
+      if (!gooeyKey) return NextResponse.json({ error: 'Missing GOOEY_API_KEY' }, { status: 500 });
+      audioBuffer = await synthesizeWithGooey(text, gooeyKey);
+    }
 
     return new NextResponse(audioBuffer, {
       headers: { 'Content-Type': 'audio/mpeg' },
@@ -22,6 +32,6 @@ export async function POST(request: Request) {
 
   } catch (error: any) {
     console.error('[Speak]', error.message);
-    return NextResponse.json({ error: error.message || 'Unknown server error' }, { status: 500 });
+    return NextResponse.json({ error: error.message || 'TTS failed' }, { status: 500 });
   }
 }

@@ -18,8 +18,8 @@ export const fillers: Filler[] = [
 ];
 
 export const phrases: Phrase[] = [
-  { english: "hello",                          swahili: "habari",                                    kikuyu: "wi mwega",                        category: "greetings" },
-  { english: "how are you",                    swahili: "habari yako",                               kikuyu: "wi mwega",                        category: "greetings" },
+  { english: "hello",                          swahili: "habari",                                    kikuyu: "wee mwega",                        category: "greetings" },
+  { english: "how are you",                    swahili: "habari yako",                               kikuyu: "wee mwega",                        category: "greetings" },
   { english: "i am fine",                      swahili: "niko sawa",                                 kikuyu: "ndi mwega",                       category: "greetings" },
   { english: "welcome",                        swahili: "karibu",                                    kikuyu: "niwega",                          category: "greetings" },
   { english: "good morning",                   swahili: "habari ya asubuhi",                         kikuyu: "wega wa ruciini",                 category: "greetings" },
@@ -85,6 +85,8 @@ export const phrases: Phrase[] = [
   { english: "breaking news",                  swahili: "habari za haraka",                          kikuyu: "uhoro wa haraka",                 category: "news" },
   { english: "good news",                      swahili: "habari njema",                              kikuyu: "uhoro mwega",                     category: "news" },
   { english: "thank you for listening",        swahili: "asante kwa kusikiliza",                     kikuyu: "ni ngatho muno kuigua",           category: "news" },
+  // agriculture
+  { english: "how many varieties of coffee are there in kenya", swahili: "kuna aina ngapi za kahawa nchini kenya", kikuyu: "ni midhemba irikũ ya kahũa ikũragio kenya", category: "agriculture" },
 ];
 
 export function phoneticConvert(text: string): string {

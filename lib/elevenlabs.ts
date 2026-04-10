@@ -1,3 +1,5 @@
+import { toSSML } from './ssml';
+
 const ELEVENLABS_API = 'https://api.elevenlabs.io/v1';
 
 export interface TTSOptions {
@@ -8,20 +10,21 @@ export interface TTSOptions {
 }
 
 /**
- * Prepares Kikuyu text for better TTS intonation:
- * - double spaces → comma pause
- * - ensures sentence-ending punctuation
+ * Prepares Kikuyu text for better TTS intonation.
+ * Returns SSML with natural pause markers.
  */
 export function prepareTTSText(text: string): string {
-  return text
-    .replace(/\s{2,}/g, ', ')
-    .replace(/([a-zA-Z])\s*$/, '$1.')   // ensure trailing period for pitch drop
-    .replace(/([a-z])([A-Z])/g, '$1. $2')
-    .trim();
+  return toSSML(
+    text
+      .replace(/\s{2,}/g, ', ')
+      .replace(/([a-z])([A-Z])/g, '$1. $2')
+      .trim()
+  );
 }
 
 /**
  * Calls ElevenLabs TTS and returns raw audio ArrayBuffer.
+ * Automatically detects SSML input (text wrapped in <speak> tags).
  */
 export async function synthesizeSpeech(
   text: string,
@@ -36,6 +39,8 @@ export async function synthesizeSpeech(
     use_speaker_boost = true,
   } = options;
 
+  const isSSML = text.trimStart().startsWith('<speak>');
+
   const response = await fetch(`${ELEVENLABS_API}/text-to-speech/${voiceId}`, {
     method: 'POST',
     headers: {
@@ -44,7 +49,7 @@ export async function synthesizeSpeech(
       'xi-api-key': apiKey,
     },
     body: JSON.stringify({
-      text: prepareTTSText(text),
+      text: isSSML ? text : prepareTTSText(text),
       model_id: 'eleven_multilingual_v2',
       voice_settings: { stability, similarity_boost, style, use_speaker_boost },
     }),

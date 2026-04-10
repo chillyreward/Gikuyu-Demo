@@ -11,7 +11,7 @@ export const dictionary: Record<string, string> = {
   technology: "tekinoroji",
   thank: "nĩ ngatho",
   you: "wee",
-  hello: "wĩ mwega",
+  hello: "Úhoro",
   goodbye: "tigwo na thayũ",
   yes: "ĩĩ",
   no: "aca",
