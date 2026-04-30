@@ -4,7 +4,7 @@
 
 @layer base {
   body {
-    @apply bg-white text-slate-900 antialiased;
+    @apply bg-background text-slate-900 antialiased;
   }
 }
 
@@ -12,19 +12,22 @@
   .glassmorphism {
     @apply bg-white/70 backdrop-blur-md border border-white/20;
   }
-
+  
   .text-gradient {
     @apply bg-clip-text text-transparent bg-gradient-to-r from-primary-600 via-primary-500 to-primary-700;
   }
 
+  /* Safe area bottom padding for iOS notch / home indicator */
   .pb-safe {
     padding-bottom: max(1rem, env(safe-area-inset-bottom));
   }
 
+  /* Utility to ensure content is never hidden behind the mobile bottom nav */
   .mobile-content-pad {
     @apply pb-20 md:pb-0;
   }
 
+  /* Hide scrollbar but keep scrollability */
   .no-scrollbar::-webkit-scrollbar {
     display: none;
   }
